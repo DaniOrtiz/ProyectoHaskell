@@ -1,0 +1,15 @@
+Todos los casos de prueba pasaron bien, 
+excepto el Theorems3_4 (que aparece en el enunciado del proyecto),
+pero creo que es la demostracion en si que esta mala.
+
+FALTA:
+- Modularizar un poco mas si se puede, creo que el poco de shows 
+podrian ir en archivo aparte.
+- Es muy probable que haya shows de mas, hay que revisar y si se
+puede, escribirlos en funciones mas bonitas. 
+- Quizas arreglar o añadir comentarios, creo que no es necesario
+pero tampoco es que los he revisado bien.
+- Preguntar cual es el error con los casos de prueba nuevos y si
+hay algun problema con que esos si nos hayan pasado. Revisarlos! 3_20 al 3_30
+
+Nota: En el enunciado proving esta escrito con 2 o's xD
