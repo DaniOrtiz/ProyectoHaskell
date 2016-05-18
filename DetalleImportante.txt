@@ -1,0 +1,21 @@
+En la ejecución de una regla de inferencia se debe verificar, 
+que la regla puede aplicarse al término que recibe como argumento
+Si la regla no puede aplicarse se debe dar un mensaje de error.
+
+Por ejemplo la ejecución de
+
+return true
+
+>>=
+
+statement 3.2 with (p =: p) using lambda z (z/\p)
+
+Debe imprimir
+
+=== <statement 3.2 with q =: p using lambda z.z/\p>
+
+*** Exception: invalid inference rule
+
+Adicionalmente si el número del enunciado no existe en el 
+módulo de teoremas (ver siguiente sección), entonces debe
+imprimir un mensaje indicando que el enunciado no existe.
