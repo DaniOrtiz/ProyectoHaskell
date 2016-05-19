@@ -108,156 +108,62 @@ done (Equiv t1 t2) t3 = if ( t3 == t2) then putStrLn("proof successful") else pu
 					  
 
 {--------- FUNCIONES SHOW PARA MOSTRAR LOS TERMINOS COMO ES ESPERADO --------}
+showAux :: String -> Term -> Term -> String
+showAux s x y = case x of
+	(Var _)   -> 	case y of
+		(Var _)   -> (showTerm x) ++ s ++ (showTerm y)
+		(T) 	  -> (showTerm x) ++ s ++ (showTerm y)
+		(F)		  -> (showTerm x) ++ s ++ (showTerm y)
+		otherwise -> (showTerm x) ++ s ++ "(" ++ (showTerm y) ++ ")"
+	(T) 	  -> 	case y of
+		(Var _)   -> (showTerm x) ++ s ++ (showTerm y)
+		(T) 	  -> (showTerm x) ++ s ++ (showTerm y)
+		(F)		  -> (showTerm x) ++ s ++ (showTerm y)
+		otherwise -> (showTerm x) ++ s ++ "(" ++ (showTerm y) ++ ")"
+	(F) 	  -> 	case y of
+		(Var _)   -> (showTerm x) ++ s ++ (showTerm y)
+		(T) 	  -> (showTerm x) ++ s ++ (showTerm y)
+		(F)		  -> (showTerm x) ++ s ++ (showTerm y)
+		otherwise -> (showTerm x) ++ s ++ "(" ++ (showTerm y) ++ ")"
+	otherwise ->	case y of
+		(Var _)   -> "(" ++ (showTerm x) ++ ")" ++ s ++ (showTerm y)
+		(T) 	  -> "(" ++ (showTerm x) ++ ")" ++ s ++ (showTerm y)
+		(F)		  -> "(" ++ (showTerm x) ++ ")" ++ s ++ (showTerm y)
+		otherwise -> "(" ++ (showTerm x) ++ ")" ++ s ++ "(" ++ (showTerm y) ++ ")"
 
 instance Show Term where show = showTerm
 
 showTerm :: Term -> String
-
+showTerm x = case x of
 -- Mostrar Constantes True y False
-showTerm (T) = "true"
-showTerm (F) = "false"
-
--- Mostrar Variables
-showTerm (Var i) = i:[]
-
--- Mostrar Operador neg (Negacion)
-showTerm (Neg (Var i)) = "¬" ++ showTerm(Var i)
-showTerm (Neg T) = "¬true"
-showTerm (Neg F) = "¬false"
-showTerm (Neg t1) = "¬(" ++ showTerm(t1) ++ ")"
-
--- Operaciones con Negacion
--- \/  FALTAN POSIBLES MEZCLAS CON TRUE Y FALSE
-showTerm (Or (Neg (Var i)) (Neg (Var j))) = "¬" ++ showTerm(Var i) ++ " \\/ ¬" ++ showTerm(Var j)
-showTerm (Or (Neg (Var i)) (Var j)) = "¬" ++ showTerm(Var i) ++ " \\/ " ++ showTerm(Var j)
-showTerm (Or (Var i) (Neg (Var j))) = showTerm(Var i) ++ " \\/ ¬" ++ showTerm(Var j)
-
-showTerm (Or (Neg (Var i)) (Neg t1)) = "¬" ++ showTerm(Var i) ++ " \\/ ¬(" ++ showTerm(t1) ++ ")"
-showTerm (Or (Var i) (Neg t1)) = showTerm(Var i) ++ " \\/ ¬(" ++ showTerm(t1) ++ ")"
-showTerm (Or (Neg (Var i)) t1) = "¬" ++ showTerm(Var i) ++ " \\/ (" ++ showTerm(t1) ++ ")"
-
-showTerm (Or (Neg t1) (Neg (Var i))) = "¬(" ++ showTerm(t1) ++ ") \\/ ¬" ++ showTerm(Var i)
-showTerm (Or  t1 (Neg (Var i))) = "(" ++ showTerm(t1) ++ ") \\/ ¬" ++ showTerm(Var i)
-showTerm (Or (Neg t1) (Var i)) = "¬(" ++ showTerm(t1) ++ ") \\/ " ++ showTerm(Var i)
-
-showTerm (Or (Neg t1) (Neg t2)) = "¬(" ++ showTerm(t1) ++ ") \\/ ¬(" ++ showTerm(t2) ++ ")"
-showTerm (Or t1 (Neg t2)) = "(" ++ showTerm t1 ++ ") \\/ ¬(" ++ showTerm t2 ++ ")"
-showTerm (Or (Neg t1) t2 ) = "¬(" ++ showTerm t1 ++ ") \\/ (" ++ showTerm t2 ++ ")"
-
--- /\  FALTAN POSIBLES MEZCLAS CON TRUE Y FALSE
-showTerm (And (Neg (Var i)) (Neg (Var j))) = "¬" ++ showTerm(Var i) ++ " /\\ ¬" ++ showTerm(Var j)
-showTerm (And (Neg (Var i)) (Var j)) = "¬" ++ showTerm(Var i) ++ " /\\ " ++ showTerm(Var j)
-showTerm (And (Var i) (Neg (Var j))) = showTerm(Var i) ++ " /\\ ¬" ++ showTerm(Var j)
-
-showTerm (And (Neg (Var i)) (Neg t1)) = "¬" ++ showTerm(Var i) ++ " /\\ ¬(" ++ showTerm(t1) ++ ")"
-showTerm (And (Var i) (Neg t1)) = showTerm(Var i) ++ " /\\ ¬(" ++ showTerm(t1) ++ ")"
-showTerm (And (Neg (Var i)) t1) = "¬" ++ showTerm(Var i) ++ " /\\ (" ++ showTerm(t1) ++ ")"
-
-showTerm (And (Neg t1) (Neg (Var i))) = "¬(" ++ showTerm(t1) ++ ") /\\ ¬" ++ showTerm(Var i)
-showTerm (And  t1 (Neg (Var i))) = "(" ++ showTerm(t1) ++ ") /\\ ¬" ++ showTerm(Var i)
-showTerm (And (Neg t1) (Var i)) = "¬(" ++ showTerm(t1) ++ ") /\\ " ++ showTerm(Var i)
-
-showTerm (And (Neg t1) (Neg t2)) = "¬(" ++ showTerm t1 ++ ") /\\ ¬(" ++ showTerm t2 ++ ")"
-showTerm (And t1 (Neg t2)) = "(" ++ showTerm t1 ++ ") /\\ ¬(" ++ showTerm t2 ++ ")"
-showTerm (And (Neg t1) t2 ) = "¬(" ++ showTerm t1 ++ ") /\\ (" ++ showTerm t2 ++ ")"
-
--- ==>  FALTAN POSIBLES MEZCLAS CON TRUE Y FALSE
-showTerm (Imp (Neg (Var i)) (Neg (Var j))) = "¬" ++ showTerm(Var i) ++ " ==> ¬" ++ showTerm(Var j)
-showTerm (Imp (Neg (Var i)) (Var j)) = "¬" ++ showTerm(Var i) ++ " ==> " ++ showTerm(Var j)
-showTerm (Imp (Var i) (Neg (Var j))) = showTerm(Var i) ++ " ==> ¬" ++ showTerm(Var j)
-
-showTerm (Imp (Neg (Var i)) (Neg t1)) = "¬" ++ showTerm(Var i) ++ " ==> ¬(" ++ showTerm(t1) ++ ")"
-showTerm (Imp (Var i) (Neg t1)) = showTerm(Var i) ++ " ==> ¬(" ++ showTerm(t1) ++ ")"
-showTerm (Imp (Neg (Var i)) t1) = "¬" ++ showTerm(Var i) ++ " ==> (" ++ showTerm(t1) ++ ")"
-
-showTerm (Imp (Neg t1) (Neg (Var i))) = "¬(" ++ showTerm(t1) ++ ") ==> ¬" ++ showTerm(Var i)
-showTerm (Imp  t1 (Neg (Var i))) = "(" ++ showTerm(t1) ++ ") ==> ¬" ++ showTerm(Var i)
-showTerm (Imp (Neg t1) (Var i)) = "¬(" ++ showTerm(t1) ++ ") ==> " ++ showTerm(Var i)
-
-showTerm (Imp (Neg t1) (Neg t2)) = "¬(" ++ showTerm t1 ++ ") ==> ¬(" ++ showTerm t2 ++ ")"
-showTerm (Imp t1 (Neg t2)) = "(" ++ showTerm t1 ++ ") ==> ¬(" ++ showTerm t2 ++ ")"
-showTerm (Imp (Neg t1) t2 ) = "¬(" ++ showTerm t1 ++ ") ==> (" ++ showTerm t2 ++ ")"
-
--- <==>  FALTAN POSIBLES MEZCLAS CON TRUE Y FALSE
-showTerm (DobleImp (Neg (Var i)) (Neg (Var j))) = "¬" ++ showTerm(Var i) ++ " <==> ¬" ++ showTerm(Var j)
-showTerm (DobleImp (Neg (Var i)) (Var j)) = "¬" ++ showTerm(Var i) ++ " <==> " ++ showTerm(Var j)
-showTerm (DobleImp (Var i) (Neg (Var j))) = showTerm(Var i) ++ " <==> ¬" ++ showTerm(Var j)
-
-showTerm (DobleImp (Neg (Var i)) (Neg t1)) = "¬" ++ showTerm(Var i) ++ " <==> ¬(" ++ showTerm(t1) ++ ")"
-showTerm (DobleImp (Var i) (Neg t1)) = showTerm(Var i) ++ " <==> ¬(" ++ showTerm(t1) ++ ")"
-showTerm (DobleImp (Neg (Var i)) t1) = "¬" ++ showTerm(Var i) ++ " <==> (" ++ showTerm(t1) ++ ")"
-
-showTerm (DobleImp (Neg t1) (Neg (Var i))) = "¬(" ++ showTerm(t1) ++ ") <==> ¬" ++ showTerm(Var i)
-showTerm (DobleImp  t1 (Neg (Var i))) = "(" ++ showTerm(t1) ++ ") <==> ¬" ++ showTerm(Var i)
-showTerm (DobleImp (Neg t1) (Var i)) = "¬(" ++ showTerm(t1) ++ ") <==> " ++ showTerm(Var i)
-
-showTerm (DobleImp (Neg t1) (Neg t2)) = "¬(" ++ showTerm t1 ++ ") <==> ¬(" ++ showTerm t2 ++ ")"
-showTerm (DobleImp t1 (Neg t2)) = "(" ++ showTerm t1 ++ ") <==> ¬(" ++ showTerm t2 ++ ")"
-showTerm (DobleImp (Neg t1) t2 ) = "¬(" ++ showTerm t1 ++ ") <==> (" ++ showTerm t2 ++ ")"
-
--- !<==>  FALTAN POSIBLES MEZCLAS CON TRUE Y FALSE
-showTerm (Inequiv (Neg (Var i)) (Neg (Var j))) = "¬" ++ showTerm(Var i) ++ " !<==> ¬" ++ showTerm(Var j)
-showTerm (Inequiv (Neg (Var i)) (Var j)) = "¬" ++ showTerm(Var i) ++ " !<==> " ++ showTerm(Var j)
-showTerm (Inequiv (Var i) (Neg (Var j))) = showTerm(Var i) ++ " !<==> ¬" ++ showTerm(Var j)
-
-showTerm (Inequiv (Neg (Var i)) (Neg t1)) = "¬" ++ showTerm(Var i) ++ " !<==> ¬(" ++ showTerm(t1) ++ ")"
-showTerm (Inequiv (Var i) (Neg t1)) = showTerm(Var i) ++ " !<==> ¬(" ++ showTerm(t1) ++ ")"
-showTerm (Inequiv (Neg (Var i)) t1) = "¬" ++ showTerm(Var i) ++ " !<==> (" ++ showTerm(t1) ++ ")"
-
-showTerm (Inequiv (Neg t1) (Neg (Var i))) = "¬(" ++ showTerm(t1) ++ ") !<==> ¬" ++ showTerm(Var i)
-showTerm (Inequiv  t1 (Neg (Var i))) = "(" ++ showTerm(t1) ++ ") !<==> ¬" ++ showTerm(Var i)
-showTerm (Inequiv (Neg t1) (Var i)) = "¬(" ++ showTerm(t1) ++ ") !<==> " ++ showTerm(Var i)
-
-showTerm (Inequiv (Neg t1) (Neg t2)) = "¬(" ++ showTerm(t1) ++ ") !<==> ¬(" ++ showTerm(t2) ++ ")"
-showTerm (Inequiv t1 (Neg t2)) = "(" ++ showTerm(t1) ++ ") !<==> ¬(" ++ showTerm(t2) ++ ")"
-showTerm (Inequiv (Neg t1) t2 ) = "¬(" ++ showTerm(t1) ++ ") !<==> (" ++ showTerm(t2) ++ ")"
-
-
--- Mostrar Operador \/ (Disyuncion)
-showTerm (Or (Var i) (Var j)) = showTerm(Var i) ++ " \\/ " ++ showTerm(Var j)
-showTerm (Or (Var i) t1) = showTerm(Var i)  ++ " \\/ (" ++ showTerm(t1) ++ ")"
-showTerm (Or t1 (Var i)) = "(" ++ showTerm(t1) ++ ")" ++ " \\/ " ++ showTerm(Var i)
-showTerm (Or t1 t2) = "(" ++ showTerm(t1) ++ ") \\/ (" ++ showTerm(t2) ++ ")"
-
--- Mostrar Operador /\ (Conjuncion)
-showTerm (And (Var i) (Var j)) = showTerm(Var i) ++ " /\\ " ++ showTerm(Var j)
-showTerm (And (Var i) t1) = showTerm(Var i)  ++ " /\\ (" ++ showTerm(t1) ++ ")"
-showTerm (And t1 (Var i)) = "(" ++ showTerm(t1) ++ ")" ++ " /\\ " ++ showTerm(Var i)
-showTerm (And t1 t2) = "(" ++ showTerm(t1) ++ ") /\\ (" ++ showTerm(t2) ++ ")"
-
--- Mostrar Operador ==> (Implicacion)
-showTerm (Imp (Var i) (Var j)) = showTerm(Var i) ++ " ==> " ++ showTerm(Var j)
-showTerm (Imp (Var i) t1) = showTerm(Var i)  ++ " ==> (" ++ showTerm(t1) ++ ")"
-showTerm (Imp t1 (Var i)) = "(" ++ showTerm(t1) ++ ")" ++ " ==> " ++ showTerm(Var i)
-showTerm (Imp t1 t2) = "(" ++ showTerm(t1) ++ ") ==> (" ++ showTerm(t2) ++ ")"
-
--- Mostrar Operador <==> (Dobleimplicacion)
-showTerm (DobleImp (Var i) (Var j)) = showTerm(Var i) ++ " <==> " ++ showTerm(Var j)
-showTerm (DobleImp (Var i) t1) = showTerm(Var i)  ++ " <==> (" ++ showTerm(t1) ++ ")"
-showTerm (DobleImp t1 (Var i)) = "(" ++ showTerm(t1) ++ ")" ++ " <==> " ++ showTerm(Var i)
-showTerm (DobleImp t1 t2) = "(" ++ showTerm(t1) ++ ") <==> (" ++ showTerm(t2) ++ ")"
-
--- Mostrar Operador !<==> (Inequivalecia)
-showTerm (Inequiv (Var i) (Var j)) = showTerm(Var i) ++ " !<==> " ++ showTerm(Var j)
-showTerm (Inequiv (Var i) t1) = showTerm(Var i)  ++ " !<==> (" ++ showTerm(t1) ++ ")"
-showTerm (Inequiv t1 (Var i)) = "(" ++ showTerm(t1) ++ ")" ++ " !<==> " ++ showTerm(Var i)
-showTerm (Inequiv t1 t2) = "(" ++ showTerm(t1) ++ ") !<==> (" ++ showTerm(t2) ++ ")"
-
+	(T) 		  -> "true"
+	(F) 		  -> "false"
+	(Var i) 	  -> [i]
+	(Neg t) 	  -> case t of
+		(Var _)   -> "¬" ++ (showTerm t)
+		(T)		  -> "¬" ++ (showTerm t)
+		(F)		  -> "¬" ++ (showTerm t)
+		otherwise -> "¬" ++ "(" ++ (showTerm t) ++ ")"
+	(Or x y)	  -> showAux " \\/ " x y
+	(And x y)	  -> showAux " /\\ " x y
+	(Imp x y)	  -> showAux " ==> " x y
+	(DobleImp x y)-> showAux " <==> " x y
+	(Inequiv x y) -> showAux " !<==> " x y
 
 -- Mostrar Operador === (Equivalencia)
 instance Show Equation where
-	show (Equiv t1 t2) = showTerm(t1) ++ " === " ++ showTerm (t2)
+	show (Equiv t1 t2) = (showTerm t1) ++ " === " ++ (showTerm t2)
 
 {--------- FUNCIONES SHOW PARA MOSTRAR LA SUSTITUCION COMO ES ESPERADO --------}
 
 instance Show Sust where  
-	show (t1,t2) = "(" ++ showTerm(t1) ++ " =: " ++ showTerm(t2) ++ ")" 
+	show (t1,t2) = "(" ++ (showTerm t1) ++ " =: " ++ (showTerm t2) ++ ")" 
 
 instance Show SustDoble where
-	show (t3, (t1,t2), t4) = "(" ++ showTerm(t3) ++ "," ++ showTerm(t1) ++ "=: " ++ 
-								   showTerm(t2) ++ ","++ showTerm(t4)++")" 
+	show (t3, (t1,t2), t4) = "(" ++ (showTerm t3) ++ "," ++ (showTerm t1) ++ "=: " ++ 
+								   (showTerm t2) ++ ","++ (showTerm t4)++")" 
 
 instance Show SustTriple where 
-	show (t3, t4, (t1,t2), t5, t6) = "(" ++ showTerm(t3) ++ "," ++ showTerm(t4) ++ "," ++
-											showTerm(t1) ++ "=: " ++ showTerm(t2) ++ "," ++ 
-											showTerm(t5) ++ "," ++ showTerm(t6) ++ ")" 
+	show (t3, t4, (t1,t2), t5, t6) = "(" ++ (showTerm t3) ++ "," ++ (showTerm t4) ++ "," ++
+											(showTerm t1) ++ "=: " ++ (showTerm t2) ++ "," ++ 
+											(showTerm t5) ++ "," ++ (showTerm t6) ++ ")" 
