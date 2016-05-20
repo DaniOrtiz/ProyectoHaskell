@@ -36,6 +36,14 @@ prop num
   | num == 3.301 = p \/ false === p                           -- theorem
   | num == 3.31 = p \/ (q \/ r) === (p \/ q) \/ (p \/ r)      -- theorem
   | num == 3.32 = p \/ q === p \/ neg q <==> p                -- theorem
+  | num == 3.33 = p \/ q <==> p \/ neg q === p                -- theorem
+  | num == 3.34 = p \/ (q <==> r) <==> p \/ q === p \/ r      -- theorem
+  | num == 3.35 = p /\ q === (p <==> q) <==> p \/ q           -- axiom
+  | num == 3.36 = p /\ q === q /\ p                           -- theorem
+  | num == 3.37 = (p /\ q) /\ r === p /\ (q /\ r)             -- theorem
+  | num == 3.38 = p /\ p === p                                -- theorem
+  | num == 3.39 = p /\ true === p                             -- theorem
+  | num == 3.40 = p /\ false === false                        -- theorem
+  | num == 3.41 = p /\ (q /\ r) === (p /\ q) /\ (p /\ r)      -- theorem
+  | num == 3.42 = p /\ neg p === false                        -- theorem
   | otherwise = error "The statement doesn't exists"
-
-  

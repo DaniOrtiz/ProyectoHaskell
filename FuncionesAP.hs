@@ -69,7 +69,7 @@ step :: (Sustitucion t1) => Term -> Float -> t1 -> Term -> Term -> Term
 step t1 n sus (Var z) e 
 	| (t1 == derecho) = izquierdo
 	| (t1 == izquierdo) = derecho
-	| otherwise = error "Ningun lado de la ecuacion resultante de la inferencia es igual al primer termino (t1)"
+	| otherwise = error "invalid inference rule"
 	where
 	  	(Equiv izquierdo derecho) = infer n sus (Var z) e
 
