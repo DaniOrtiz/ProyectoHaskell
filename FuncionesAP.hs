@@ -6,7 +6,7 @@
     Proyecto 1 - Lenguaje Haskell
     Elaborado por:  Daniela Ortiz        10-10517   
                     Maria Lourdes Garcia 10-10264
-    Descripción: Este archivo contiene las funciones de nuestro analizador de 
+    Descripción: Este archivo contiene las funciones de nuestro asisitente de 
     pruebas.
 -}
 
