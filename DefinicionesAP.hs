@@ -1,10 +1,21 @@
+{-  Universidad Simon Bolivar
+    Departamento de Computacion y Tecnologia de la Informacion
+    Asignatura: CI3661 - Laboratorio de Lenguajes de Programacion I
+    Proyecto 1 - Lenguaje Haskell
+    Elaborado por:  Daniela Ortiz        10-10517   
+                    Maria Lourdes Garcia 10-10264
+    Descripción: Este archivo contiene las definiciones de los tipos de datos,
+    operadores, precedencias, variables y constantes necesarias para realizar 
+    las pruebas.
+-}
+
 module DefinicionesAP where
 
-{--------------------- DEFINICIONES DE TIPOS DE DATOS ----------------------}
+{----------------------- DEFINICIONES DE TIPOS DE DATOS ----------------------}
 
 -- Definicion de data Term
 data Term = T -- True
-		  | F -- False
+          | F -- False
           | Var Char 
           | Neg Term
           | And Term Term
@@ -23,8 +34,8 @@ type Sust = (Term, Term)
 type SustDoble = (Term, Sust, Term)
 type SustTriple = (Term, Term, Sust, Term, Term)
 
-{---------------------- DEFINICION DE LOS OPERADORES -----------------------}
- 		
+{------------------------ DEFINICION DE LOS OPERADORES -----------------------}
+        
 neg :: Term -> Term
 neg t1 = Neg t1
 
@@ -49,7 +60,7 @@ neg t1 = Neg t1
 (=:) :: Term -> Term -> Sust
 (=:) t1 t2 = (t1,t2)
 
-{---------------------- PRECEDENCIA DE LOS OPERADORES -----------------------}
+{----------------------- PRECEDENCIA DE LOS OPERADORES -----------------------}
 
 infix 0 ===, =:
 infixl 1 <==>, !<==> 
@@ -57,7 +68,7 @@ infixr 2 ==>
 infixl 3 \/, /\
 
 
-{------------- DEFINICION DE LAS VARIABLES (LETRAS DEL ALFABETO) ------------}
+{------------- DEFINICION DE LAS VARIABLES (LETRAS DEL ALFABETO) -------------}
 
 a :: Term
 a = Var 'a'
@@ -137,7 +148,7 @@ y = Var 'y'
 z :: Term
 z = Var 'z'
 
-{------------- DEFINICION DE LAS CONSTANTES (TRUE Y FALSE) ------------}
+{---------------- DEFINICION DE LAS CONSTANTES (TRUE Y FALSE) ----------------}
 
 true :: Term
 true = T
