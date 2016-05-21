@@ -12,7 +12,7 @@
 
 ------------------------------Instrucciones------------------------------------
 
-Intrucciones para poder realizar los casos de prueba a nuestro proyecto:
+Instrucciones para poder realizar los casos de prueba a nuestro proyecto:
 
 1. En el archivo Theorems.hs, colocar en el encabezado:
 

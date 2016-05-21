@@ -6,8 +6,8 @@
     Proyecto 1 - Lenguaje Haskell
     Elaborado por:  Daniela Ortiz        10-10517   
                     Maria Lourdes Garcia 10-10264
-    Descripción: Este archivo contiene las finciones necesarias para realizar 
-    las pruebas de los teoremas.
+    Descripción: Este archivo contiene las funciones de nuestro analizador de 
+    pruebas.
 -}
 
 module FuncionesAP where
@@ -92,12 +92,12 @@ lambda = ()
 
 statement:: (Sustitucion t1, Show t1) => Float -> () -> t1 -> () -> () -> Term -> Term -> Term -> IO Term
 statement n _ sus _ _ z e t1 = do
-                                let v1 = (step t1 n sus z e)
-                                putStrLn("=== <statement " ++ show n ++ " with "
+                               let v1 = (step t1 n sus z e)
+                               putStrLn("=== <statement " ++ show n ++ " with "
                                          ++ show sus ++ " using lambda " ++ 
                                          show z ++ " (" ++ show e ++ ")"++ ")>" 
                                          ++ "\n"++ showTerm(v1) ++ "\n")
-                                return(v1)
+                               return(v1)
 
 proof :: Equation -> IO Term
 proof (Equiv t1 t2) = do

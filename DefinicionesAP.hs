@@ -5,8 +5,8 @@
     Elaborado por:  Daniela Ortiz        10-10517   
                     Maria Lourdes Garcia 10-10264
     Descripción: Este archivo contiene las definiciones de los tipos de datos,
-    operadores, precedencias, variables y constantes necesarias para realizar 
-    las pruebas.
+    operadores, precedencias, variables y constantes necesarias para las 
+    funciones de nuestro analizador de pruebas.
 -}
 
 module DefinicionesAP where
