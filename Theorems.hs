@@ -46,4 +46,5 @@ prop num
   | num == 3.40 = p /\ false === false                        -- theorem
   | num == 3.41 = p /\ (q /\ r) === (p /\ q) /\ (p /\ r)      -- theorem
   | num == 3.42 = p /\ neg p === false                        -- theorem
+  | num == 3.43 = p ==> q === neg q ==> neg p
   | otherwise = error "The statement doesn't exists"
